@@ -1,6 +1,7 @@
 package br.com.poc;
 
 
+import br.com.poc.dto.EventDTO;
 import br.com.poc.entity.Event;
 import br.com.poc.service.EventReadService;
 import br.com.poc.service.impl.EventReadServiceImpl;
@@ -8,7 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,7 +42,7 @@ public class MainApplication {
 
 			EventReadService eventReadService = new EventReadServiceImpl();
 
-			List<Event> teste = eventReadService.readEvents(entryValue03);
+			List<EventDTO> teste = eventReadService.readEvents(entryValue03);
 
 		}
 	}

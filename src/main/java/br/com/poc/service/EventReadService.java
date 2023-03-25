@@ -1,11 +1,11 @@
 package br.com.poc.service;
 
-import br.com.poc.entity.Event;
+import br.com.poc.dto.EventDTO;
 
 import java.util.List;
 
 public interface EventReadService {
 
-    List<Event> readEvents(String entryValue);
+    List<EventDTO> readEvents(String entryValue);
 
 }

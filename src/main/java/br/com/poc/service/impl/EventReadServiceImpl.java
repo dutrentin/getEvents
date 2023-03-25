@@ -4,14 +4,19 @@ import br.com.poc.dto.EventDTO;
 import br.com.poc.entity.Event;
 import br.com.poc.enuns.TypeDistanceEnum;
 import br.com.poc.service.EventReadService;
+import br.com.poc.util.DistanceCalculate;
 import jxl.read.biff.BiffException;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class EventReadServiceImpl implements EventReadService {
 
@@ -20,15 +25,17 @@ public class EventReadServiceImpl implements EventReadService {
     BufferedReader br = null;
     String line = "";
     String csvDivisor = ",";
+    String payloadDivisor = ">";
+    String payloadDivisorEnd = "<";
 
-    private List<Event> events = new ArrayList<>();
+    private List<EventDTO> events = new ArrayList<>();
 
     @Override
-    public List<Event> readEvents(String entryValue){
+    public List<EventDTO> readEvents(String entryValue){
         return readCSV(entryValue);
     }
 
-    public List<Event> readCSV(String entryValue){
+    public List<EventDTO> readCSV(String entryValue){
         String[] columnsEntryValues = entryValue.split(csvDivisor);
 
         double latitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LATITUDE.getValueType()]);
@@ -42,26 +49,48 @@ public class EventReadServiceImpl implements EventReadService {
             while ((line = br.readLine()) != null) {
                 if(!line.contains("device")){
                     String[] columns = line.split(csvDivisor);
+                    if(columns.length >= 7){
+                        String[] payloadColumns = line.split(payloadDivisor);
+                        String getPayload = payloadColumns[1].split("\\<")[0];
 
-                    EventDTO event = new EventDTO();
 
-                    String latitudeColumn = columns[5];
-                    String longitudeColumn = columns[6];
-                    //longitudeColumn = "-" + longitudeColumn.substring(2, longitudeColumn.length());
-                    longitudeColumn = longitudeColumn.replaceAll("<","");
-                    longitudeColumn = longitudeColumn.replaceAll("\"", "");
-                    //longitudeColumn = longitudeColumn.substring(0, longitudeColumn.length() - 1);
+                        EventDTO event = new EventDTO();
+                        event.setDevice(columns[0]);
+                        event.setPrefix(columns[1]);
 
-                    event.setLatitude(Double.parseDouble(latitudeColumn));
-                    event.setLongitude(Double.parseDouble(longitudeColumn));
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-                    distanceCalculate(latitude, longitude, event);
+                        Date instantCreateEvent = format.parse(columns[2]);
+
+                        event.setInstantCreateEvent(instantCreateEvent);
+                        event.setPayload(getPayload);
+
+                        String latitudeColumn = columns[5];
+                        String longitudeColumn = columns[6];
+
+                        longitudeColumn = longitudeColumn.replaceAll("<","");
+                        longitudeColumn = longitudeColumn.replaceAll("\"", "");
+
+                        event.setLatitude(Double.parseDouble(latitudeColumn));
+                        event.setLongitude(Double.parseDouble(longitudeColumn));
+                        event.setCompany(columns[7]);
+
+                        boolean nearByArea =  distanceCalculateInMeters(latitude, longitude, event);
+                        if(nearByArea){
+                            events.add(event);
+                        }
+                    }else{
+                        System.out.println("A planilha csv não está no formato correto. O número de colunas está menor que o padrão.");
+                    }
                 }
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         } finally {
             if (br != null) {
@@ -77,29 +106,14 @@ public class EventReadServiceImpl implements EventReadService {
 
     }
 
-    private double distanceCalculate(double latitudeParam, double longitudeParam, EventDTO event){
-
-        double earthRadius = 6371;//kilometers
-        double dLat = Math.toRadians(event.getLatitude() - latitudeParam);
-        double dLng = Math.toRadians(event.getLongitude() - longitudeParam);
-        double sindLat = Math.sin(dLat / 2);
-        double sindLng = Math.sin(dLng / 2);
-        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
-                * Math.cos(Math.toRadians(latitudeParam))
-                * Math.cos(Math.toRadians(event.getLatitude()));
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double dist = earthRadius * c;
-        double distInMeters =  dist * 1000;
-
-        if(distInMeters < 50){
-            System.out.print("Menor que 50m \n");
-            System.out.printf("Distância de: %.2f metros \n", distInMeters);
+    private boolean distanceCalculateInMeters(double latitudeParam, double longitudeParam, EventDTO event){
+        if(DistanceCalculate.calculateInMeters(latitudeParam, longitudeParam, event) > 50){
+            return false;
         }
-
-        return distInMeters;
+        return true;
     }
 
-    public List<Event> readMysql(){
+    public List<EventDTO> readMysql(){
 
 
         return events;

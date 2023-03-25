@@ -12,6 +12,7 @@ public class EventDTO {
     private String company;
     private double latitude;
     private double longitude;
+    private double distanceInMeters;
 
     public String getDevice() {
         return device;
@@ -67,5 +68,13 @@ public class EventDTO {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public double getDistanceInMeters() {
+        return distanceInMeters;
+    }
+
+    public void setDistanceInMeters(double distanceInMeters) {
+        this.distanceInMeters = distanceInMeters;
     }
 }
