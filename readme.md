@@ -1,7 +1,7 @@
-Prova de Conceito Eduardo A. T Borges
+Prova de Conceito WPlex
 =================
 
-Aplicação desenvolvida nos padrões de API Spring boot.
+Aplicação desenvolvida conforme documentação enviada
 -------------------
 Configurações de aplicação:
 - As configurações de aplicação estão descritas no arquivo application.properties que pode ser encontrado no path src.main.resources
