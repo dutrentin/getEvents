@@ -29,11 +29,7 @@ public class EventController {
     @ResponseBody
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam("limitDistance") Integer limitDistance, @RequestParam("param") String param) throws IOException, BiffException {
 
-        List<EventDTO> events = new ArrayList<>();
-        events = eventReadService.readEventsWithDistance(param, limitDistance.doubleValue());
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(events);
+        return ResponseEntity.status(HttpStatus.OK).body(eventReadService.readEventsWithDistance(param, limitDistance.doubleValue()));
     }
 
 }
