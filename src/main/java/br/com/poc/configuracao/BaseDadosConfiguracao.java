@@ -39,6 +39,4 @@ public class BaseDadosConfiguracao {
 		return conexao;
 	}
 
-	
-
 }*/

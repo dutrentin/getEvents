@@ -18,8 +18,8 @@
 	
 	<properties>
 		<java.version>1.8</java.version>
-		<liquibase-maven-plugin.version>3.10.3</liquibase-maven-plugin.version>
-		<liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
+		<!-- <liquibase-maven-plugin.version>3.10.3</liquibase-maven-plugin.version> -->
+		<!-- <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version> -->
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<maven.build.timestamp.format>yyyy-MM-dd-HHmmss</maven.build.timestamp.format>
@@ -126,11 +126,11 @@
 		    <artifactId>guava</artifactId>
 		    <version>30.1-jre</version>
 		</dependency>
-		
-		<dependency>
+
+		<!-- <dependency>
 		    <groupId>org.liquibase</groupId>
 		    <artifactId>liquibase-core</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 		    <groupId>javax.validation</groupId>

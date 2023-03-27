@@ -4,7 +4,7 @@ package br.com.controller;
 import br.com.poc.service.impl.EventReadServiceImpl;
 
 //import org.jeasy.random.EasyRandomParameters;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import  static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,17 @@ public class EventReadControllerTest {
     @BeforeEach
     public void setup(){
         //Carregar apenas as classes selecionados no contexto
-        RestAssuredMockMvc.standaloneSetup(this.eventReadServiceImpl);
+        standaloneSetup(this.eventReadServiceImpl);
     }
 
     @Test
     public void readCsv() throws Exception{
+        double latitude = -23.70041;
+        double longitude = -46.53713;
+
+        //when().
+        //given().accept(this.eventReadServiceImpl.readEvents(latitude,longitude ));
+
         //EasyRandomParameters parameters = new EasyRandomParameters();
         System.out.println();
 

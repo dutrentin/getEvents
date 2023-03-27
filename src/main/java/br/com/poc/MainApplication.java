@@ -16,10 +16,13 @@ import java.util.Scanner;
 @SpringBootApplication
 public class MainApplication {
 
-	@Bean(name = "flushBase")
+	// Caso seja implementado conexão de banco, este trecho deve ser
+	// descomentado para chamadas as configurações do banco no arquivo application.properties
+
+	/*@Bean(name = "flushBase")
     public String flushBase() {
 		return new String();
-    }
+    }*/
 
     private EventReadService eventReadService;
 	public static final String csvDivisor = ",";
@@ -66,7 +69,6 @@ public class MainApplication {
 		entryValue03 = ler.next();
 		return entryValue03;
 	}
-
 
 
 }
