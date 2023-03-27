@@ -1,7 +1,5 @@
 package br.com.poc.util;
 
-import br.com.poc.dto.PersonDTO;
-import br.com.poc.dto.TaskDTO;
 import br.com.poc.entity.Person;
 import br.com.poc.entity.Task;
 

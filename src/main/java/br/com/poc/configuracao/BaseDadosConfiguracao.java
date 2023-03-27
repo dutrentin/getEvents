@@ -11,11 +11,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import br.com.poc.enuns.AmbienteEnum;
-
 
 @Configuration
-@Profile("BaseDados")
+@Profile("BaseData")
 public class BaseDadosConfiguracao {
 
 	@Autowired

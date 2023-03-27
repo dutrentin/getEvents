@@ -1,6 +1,5 @@
 package br.com.poc.service;
 
-import br.com.poc.dao.PersonDAO;
 import br.com.poc.entity.Person;
 import br.com.poc.exception.GenericPersistenciaException;
 import br.com.poc.util.FilterPerson;

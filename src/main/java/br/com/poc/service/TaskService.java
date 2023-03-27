@@ -1,9 +1,5 @@
 package br.com.poc.service;
 
-import br.com.poc.dao.PersonDAO;
-import br.com.poc.dao.TaskDAO;
-import br.com.poc.dto.TaskDTO;
-import br.com.poc.dto.TaskTransferDTO;
 import br.com.poc.entity.Task;
 import br.com.poc.exception.GenericPersistenciaException;
 import br.com.poc.util.CastTaskDTO;
