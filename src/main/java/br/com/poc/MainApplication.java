@@ -2,13 +2,12 @@ package br.com.poc;
 
 
 import br.com.poc.dto.EventDTO;
+import br.com.poc.enuns.TypeDistanceEnum;
 import br.com.poc.service.EventReadService;
 import br.com.poc.service.impl.EventReadServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +22,7 @@ public class MainApplication {
     }
 
     private EventReadService eventReadService;
+	public static final String csvDivisor = ",";
 
 	public static void main(String[] args) {
 
@@ -30,24 +30,30 @@ public class MainApplication {
 
 		Scanner ler = new Scanner(System.in);
 
-		String entryValue01 = "";
-		String entryValue02 = "";
-		String entryValue03 = "";
+		String value = "";
 
 		while(1 > 0){
 
 			System.out.printf("Digite:");
 
-			entryValue03 = getValues(ler);
+			value = getValues(ler);
 
 			EventReadService eventReadService = new EventReadServiceImpl();
 
-			List<EventDTO> teste = eventReadService.readEvents(entryValue03);
+			String[] columnsEntryValues = value.split(csvDivisor);
+
+			double latitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LATITUDE.getValueType()]);
+			double longitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LONGITUDE.getValueType()]);
+
+			List<EventDTO> teste = eventReadService.readEvents(latitude, longitude);
 
 		}
 	}
 
 	private static String getValues(Scanner ler) {
+		/* Como são passadas 3 propriedades via linha de comando
+		  os dois primeiros paramtros são ignorados e  apenas o terceiro, que é esperado o valor de latitude e longitude
+		   é utilizado. Os demais são usados apenas para avançar o método ler.next() */
 		String entryValue01;
 		String entryValue02;
 		String entryValue03;

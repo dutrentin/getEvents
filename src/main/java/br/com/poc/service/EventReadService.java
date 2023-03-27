@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface EventReadService {
 
-    List<EventDTO> readEvents(String entryValue);
+    List<EventDTO> readEvents(double entryValueLatitude, double entryValueLongitude);
 
-    List<EventDTO> readEventsWithDistance(String entryValue, double proximityLimitDistance);
+    List<EventDTO> readEventsWithDistance(double entryValueLatitude, double entryValueLongitude, double proximityLimitDistance);
 
 }

@@ -12,7 +12,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 
-@Configuration
+/*@Configuration
 @Profile("BaseData")
 public class BaseDadosConfiguracao {
 
@@ -38,7 +38,7 @@ public class BaseDadosConfiguracao {
 
 		return conexao;
 	}
-	
+
 	
 
-}
+}*/
