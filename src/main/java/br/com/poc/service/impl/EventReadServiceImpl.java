@@ -5,7 +5,9 @@ import br.com.poc.entity.Event;
 import br.com.poc.enuns.TypeDistanceEnum;
 import br.com.poc.service.EventReadService;
 import br.com.poc.util.DistanceCalculate;
-import jxl.read.biff.BiffException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,29 +15,38 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
+@Service("eventReadServiceImpl")
 public class EventReadServiceImpl implements EventReadService {
 
+    @Autowired
+    private Environment env;
 
-    private String arquivoCSV = "C://eventlog.csv";
+
+    private String arquivoCSV = "C://eventlog6.csv";
     BufferedReader br = null;
     String line = "";
     String csvDivisor = ",";
     String payloadDivisor = ">";
     String payloadDivisorEnd = "<";
 
-    private List<EventDTO> events = new ArrayList<>();
+    private List<EventDTO> events;
 
     @Override
     public List<EventDTO> readEvents(String entryValue){
-        return readCSV(entryValue);
+        double distanceLimitDefault = Double.parseDouble(env.getProperty("proximity.limit.distance"));
+        return readCSV(entryValue, distanceLimitDefault);
     }
 
-    public List<EventDTO> readCSV(String entryValue){
+    @Override
+    public List<EventDTO> readEventsWithDistance(String entryValue,double distanceLimit){
+        return readCSV(entryValue, distanceLimit);
+    }
+
+    public List<EventDTO> readCSV(String entryValue, double distanceLimit){
+        events = new ArrayList<>();
+
         String[] columnsEntryValues = entryValue.split(csvDivisor);
 
         double latitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LATITUDE.getValueType()]);
@@ -76,7 +87,7 @@ public class EventReadServiceImpl implements EventReadService {
                         event.setLongitude(Double.parseDouble(longitudeColumn));
                         event.setCompany(columns[7]);
 
-                        boolean nearByArea =  distanceCalculateInMeters(latitude, longitude, event);
+                        boolean nearByArea =  distanceCalculateInMeters(latitude, longitude, event, distanceLimit);
                         if(nearByArea){
                             events.add(event);
                         }
@@ -102,12 +113,14 @@ public class EventReadServiceImpl implements EventReadService {
             }
         }
 
+        events.sort(Comparator.comparing(EventDTO::getInstantCreateEvent).reversed());
+
         return events;
 
     }
 
-    private boolean distanceCalculateInMeters(double latitudeParam, double longitudeParam, EventDTO event){
-        if(DistanceCalculate.calculateInMeters(latitudeParam, longitudeParam, event) > 50){
+    private boolean distanceCalculateInMeters(double latitudeParam, double longitudeParam, EventDTO event, double distanceLimit){
+        if(DistanceCalculate.calculateInMeters(latitudeParam, longitudeParam, event) > distanceLimit){
             return false;
         }
         return true;

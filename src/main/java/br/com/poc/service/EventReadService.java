@@ -8,4 +8,6 @@ public interface EventReadService {
 
     List<EventDTO> readEvents(String entryValue);
 
+    List<EventDTO> readEventsWithDistance(String entryValue, double proximityLimitDistance);
+
 }

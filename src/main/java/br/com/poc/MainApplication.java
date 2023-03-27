@@ -2,12 +2,13 @@ package br.com.poc;
 
 
 import br.com.poc.dto.EventDTO;
-import br.com.poc.entity.Event;
 import br.com.poc.service.EventReadService;
 import br.com.poc.service.impl.EventReadServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 
 import java.util.List;
 import java.util.Scanner;
@@ -22,10 +23,9 @@ public class MainApplication {
     }
 
     private EventReadService eventReadService;
-	
-  
+
 	public static void main(String[] args) {
-		
+
 		SpringApplication.run(MainApplication.class, args);
 
 		Scanner ler = new Scanner(System.in);
@@ -60,5 +60,7 @@ public class MainApplication {
 		entryValue03 = ler.next();
 		return entryValue03;
 	}
+
+
 
 }

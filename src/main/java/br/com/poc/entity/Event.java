@@ -22,4 +22,6 @@ public class Event implements Serializable {
     @Column(name = "DS_PAYLOAD", length = 500)
     private String payload;
 
+
+
 }

@@ -1,9 +1,12 @@
 package br.com.poc.dto;
 
 
+import br.com.poc.entity.Event;
+
+import java.util.Comparator;
 import java.util.Date;
 
-public class EventDTO {
+public class EventDTO implements Comparator<EventDTO> {
 
     private String device;
     private String prefix;
@@ -76,5 +79,16 @@ public class EventDTO {
 
     public void setDistanceInMeters(double distanceInMeters) {
         this.distanceInMeters = distanceInMeters;
+    }
+
+    @Override
+    public int compare(EventDTO o1, EventDTO o2) {
+        if(o1.getInstantCreateEvent().after(o2.getInstantCreateEvent())){
+            return -1;
+        }
+        if(o1.getInstantCreateEvent().before(o2.getInstantCreateEvent())){
+            return 1;
+        }
+        return 0;
     }
 }
