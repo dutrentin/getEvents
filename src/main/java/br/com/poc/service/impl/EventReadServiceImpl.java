@@ -3,7 +3,6 @@ package br.com.poc.service.impl;
 import br.com.poc.dto.EventDTO;
 import br.com.poc.service.EventReadService;
 import br.com.poc.util.DistanceCalculate;
-import br.com.poc.util.PropertiesUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
