@@ -7,6 +7,7 @@ import br.com.poc.service.EventReadService;
 import br.com.poc.service.impl.EventReadServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,8 +21,8 @@ public class MainApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(MainApplication.class, args);
-
+		ApplicationContext context = SpringApplication.run(MainApplication.class, args);
+		
 		Scanner ler = new Scanner(System.in);
 
 		String value = "";
@@ -32,7 +33,8 @@ public class MainApplication {
 
 			value = getValues(ler);
 
-			EventReadService eventReadService = new EventReadServiceImpl();
+			EventReadService eventReadService = context.getBean(EventReadService.class);
+			//EventReadService eventReadService = new EventReadServiceImpl();
 
 			String[] columnsEntryValues = value.split(csvDivisor);
 

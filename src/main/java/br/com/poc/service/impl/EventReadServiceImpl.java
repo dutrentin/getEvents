@@ -4,8 +4,10 @@ import br.com.poc.dto.EventDTO;
 import br.com.poc.service.EventReadService;
 import br.com.poc.util.DistanceCalculate;
 import br.com.poc.util.PropertiesUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -22,9 +24,10 @@ public class EventReadServiceImpl implements EventReadService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventReadServiceImpl.class);
 
-    private String arquivoCSV = "C://eventlog6.csv";
+    //private String arquivoCSV = "C://eventlog.csv";
+    private String arquivoCSV = EventReadServiceImpl.class.getClassLoader().getResource("eventlog.csv").getFile() ;
 
-
+    
     public static final String CSV_DIVISOR = ",";
     public static final String PAYLOAD_DIVISOR = ">";
     public static final String PAYLOAD_DIVISOR_END = "<";
@@ -32,10 +35,12 @@ public class EventReadServiceImpl implements EventReadService {
     public static final SimpleDateFormat DATE_FORMAT_OUT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     private List<EventDTO> events;
+    
+    @Value("${proximity.limit.distance}")
+    private Double distanceLimitDefault;
 
     @Override
     public List<EventDTO> readEvents(double entryValueLatitude,double entryValueLongitude ){
-        double distanceLimitDefault = Double.parseDouble(PropertiesUtil.getProp("proximity.limit.distance"));
         return filterEvents(entryValueLatitude, entryValueLongitude, distanceLimitDefault);
     }
 

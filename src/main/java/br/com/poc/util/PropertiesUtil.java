@@ -11,8 +11,12 @@ public class PropertiesUtil {
         try {
             String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 
+            
             Properties props = new Properties();
-            FileInputStream file = new FileInputStream(rootPath + "application.properties");
+            
+            String pathAppProperties = PropertiesUtil.class.getClassLoader().getResource("application.properties").getFile() ;
+            
+            FileInputStream file = new FileInputStream(pathAppProperties);
 
             props.load(file);
             return props.getProperty("proximity.limit.distance");
