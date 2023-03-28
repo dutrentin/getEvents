@@ -66,7 +66,7 @@ public class EventReadServiceImplTest {
         EventDTO event = Mockito.mock(EventDTO.class);
         EventReadServiceImpl mock = org.mockito.Mockito.mock(EventReadServiceImpl.class);
         
-        Mockito.when(mock.readEventsWithDistance(latitude, longitude, limitDistance)).thenReturn(List.of(event));
+        //Mockito.when(mock.readEventsWithDistance(latitude, longitude, limitDistance)).thenReturn(List.of(event));
         
         List<EventDTO> events = mock.readEventsWithDistance(latitude, longitude, limitDistance);
         
@@ -85,7 +85,7 @@ public class EventReadServiceImplTest {
         EventDTO event = Mockito.mock(EventDTO.class);
         EventReadServiceImpl mock = org.mockito.Mockito.mock(EventReadServiceImpl.class);
         
-        Mockito.when(mock.readEvents(latitude, longitude)).thenReturn(List.of(event));
+        //Mockito.when(mock.readEvents(latitude, longitude)).thenReturn(List.of(event));
         
         List<EventDTO> events = mock.readEvents(latitude, longitude);
         

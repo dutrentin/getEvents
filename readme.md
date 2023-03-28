@@ -10,6 +10,7 @@ Aplicação desenvolvida conforme documentação enviada
 **Codificação:**
 - Na classe de teste EventReadServiceImplTest foram desenvolvidos alguns testes simples utilizando Spring Test.
 - Como disponibilização futura para integração, foi criada a classe EventController com método get passando os parâmetros da latitude e longitude e limite de distância.
+- A classe MainApplication (br.com.poc.MainApplication) é responsável por subir a aplicação e capturar o comando inserido no console. A partir dela que é feita a leitura da planilha.
 
 **Exemplo de chamada REST**:
 http://localhost:8080/events-api/events/list?latitude=-23.70041&longitude=-46.53713&limitDistance=50)

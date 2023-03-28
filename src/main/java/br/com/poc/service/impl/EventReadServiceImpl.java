@@ -4,6 +4,7 @@ import br.com.poc.dto.EventDTO;
 import br.com.poc.service.EventReadService;
 import br.com.poc.util.DistanceCalculate;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,12 +94,41 @@ public class EventReadServiceImpl implements EventReadService {
         } finally {
             finalizarArquivo(br);
         }
-
+        
+        Map<String, List<EventDTO>> mapList = new HashedMap();
+        
+        // Agrupar por dispositivo
+        groupByDevice(mapList);
+        
+        events.removeAll(events);
+        
+       // Percorre a lista map agrupada por disposivito para adicionar na lista de eventos
+        for (String device : mapList.keySet()) { 
+        	mapList.get(device).listIterator().forEachRemaining(ev ->{
+        		events.add(ev);
+        	});
+        }
+       
+        // Ordena por data após agrupados
         events.sort(Comparator.comparing(EventDTO::getInstantCreateEvent).reversed());
         printValuesInConsole();
         return events;
 
     }
+
+	private void groupByDevice(Map<String, List<EventDTO>> mapList) {
+		events.forEach(e -> {
+        	if(!mapList.containsKey(e.getDevice())) {
+        		List<EventDTO> list = new ArrayList<>();
+        		list.add(e);
+        		mapList.put(e.getDevice(), list);
+        	}else {
+        		mapList.get(e.getDevice()).add(e);
+        	}
+        	// ordena por data após ser agrupado por disposivito
+        	mapList.get(e.getDevice()).sort(Comparator.comparing(EventDTO::getInstantCreateEvent).reversed());
+        });
+	}
 
     private void printValuesInConsole(){
         for(EventDTO event : events){
@@ -108,7 +138,7 @@ public class EventReadServiceImpl implements EventReadService {
                     .append(DATE_FORMAT_OUT.format(event.getInstantCreateEvent())).append(CSV_DIVISOR)
                     .append("\">"+event.getPayload()+"<\"");
 
-            System.out.println(stringToOut.toString().substring(1,stringToOut.length()));
+            System.out.println(stringToOut.toString());
         }
     }
 

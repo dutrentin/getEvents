@@ -1,7 +1,5 @@
 package br.com.poc.util;
 
-import java.util.concurrent.Semaphore;
-
 public class ConcurrentGerenate {
 	
 	public static void main(String[] args) {

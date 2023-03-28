@@ -1,10 +1,8 @@
 package br.com.poc;
 
 
-import br.com.poc.dto.EventDTO;
 import br.com.poc.enuns.TypeDistanceEnum;
 import br.com.poc.service.EventReadService;
-import br.com.poc.service.impl.EventReadServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +14,6 @@ import java.util.Scanner;
 @SpringBootApplication
 public class MainApplication {
 
-    private EventReadService eventReadService;
 	public static final String csvDivisor = ",";
 
 	public static void main(String[] args) {
@@ -41,7 +38,7 @@ public class MainApplication {
 			double latitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LATITUDE.getValueType()]);
 			double longitude = Double.parseDouble(columnsEntryValues[TypeDistanceEnum.LONGITUDE.getValueType()]);
 
-			List<EventDTO> teste = eventReadService.readEvents(latitude, longitude);
+			eventReadService.readEvents(latitude, longitude);
 
 		}
 	}

@@ -9,12 +9,6 @@ public class DistanceCalculate {
         double distKm = distanceInKilometers(latitudeParam, longitudeParam, event);
         event.setDistanceInMeters(distKm * 1000);
 
-        // TODO: remover
-        /*if(distKm * 1000 < 50){
-            System.out.print("Menor que 50m \n");
-            System.out.printf("Distância de: %.2f metros \n", distKm * 1000);
-        }
-        */
         return distKm * 1000;
     }
 
