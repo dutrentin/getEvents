@@ -1,4 +1,4 @@
-package br.com.controller;
+package br.com;
 
 
 import br.com.poc.dto.EventDTO;
@@ -7,6 +7,9 @@ import br.com.poc.service.impl.EventReadServiceImpl;
 
 //import org.jeasy.random.EasyRandomParameters;
 import  static io.restassured.module.mockmvc.RestAssuredMockMvc.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,43 +42,56 @@ public class EventReadServiceImplTest {
     @Autowired
     private MockMvc mockMvc;
 
+    //@Autowired
+    //private EventReadServiceImpl eventReadServiceImpl;
+
     @Autowired
-    private EventReadServiceImpl eventReadServiceImpl;
-    
-    @Autowired
-    private EventReadService eventReadService;
+    private EventReadServiceImpl eventReadService;
 
 
     @BeforeEach
     public void setup(){
         //Carregar apenas as classes selecionados no contexto
-        standaloneSetup(this.eventReadServiceImpl);
+        standaloneSetup(this.eventReadService);
     }
-    
+
 
     @Test
-    public void readCsv() throws Exception{
+    public void readCsvSucessWithDistance() throws Exception{
         double latitude = -23.70041;
         double longitude = -46.53713;
         double limitDistance = 50;
 
-        
-        
-        //List<EventDTO> events = eventReadService.readEventsWithDistance(latitude, longitude, limitDistance);
-        
-        EventDTO event = Mockito.mock(EventDTO.class);
-        List<EventDTO> events = Collections.singletonList(event);
-        
-        Mockito.when(eventReadService.readEventsWithDistance(latitude, longitude, limitDistance)).thenReturn(events);
-        
-        //Assertions.assert
-        
-        //given().accept(this.eventReadServiceImpl.readEvents(latitude,longitude ));
 
-        //EasyRandomParameters parameters = new EasyRandomParameters();
-        System.out.println();
+        EventDTO event = Mockito.mock(EventDTO.class);
+        EventReadServiceImpl mock = org.mockito.Mockito.mock(EventReadServiceImpl.class);
+        
+        Mockito.when(mock.readEventsWithDistance(latitude, longitude, limitDistance)).thenReturn(List.of(event));
+        
+        List<EventDTO> events = mock.readEventsWithDistance(latitude, longitude, limitDistance);
+        
+        assertEquals(1, events.size());
+        assertTrue(!events.isEmpty());
 
     }
+    
+    @Test
+    public void readCsvSucessWithDistanceDefault() throws Exception{
+    	double latitude = -23.70041;
+        double longitude = -46.53713;
+        double limitDistance = 50;
 
+
+        EventDTO event = Mockito.mock(EventDTO.class);
+        EventReadServiceImpl mock = org.mockito.Mockito.mock(EventReadServiceImpl.class);
+        
+        Mockito.when(mock.readEvents(latitude, longitude)).thenReturn(List.of(event));
+        
+        List<EventDTO> events = mock.readEvents(latitude, longitude);
+        
+        assertEquals(1, events.size());
+        assertTrue(!events.isEmpty());
+    }
+    
 
 }

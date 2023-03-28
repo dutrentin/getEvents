@@ -3,13 +3,25 @@ Prova de Conceito WPlex
 
 Aplicação desenvolvida conforme documentação enviada
 -------------------
-Configurações de aplicação:
+**Configurações de aplicação:**
 - As configurações de aplicação estão descritas no arquivo application.properties que pode ser encontrado no path src.main.resources
-- A criação da estrutura de banco de dados é feita através do Liquibase, sendo executado os arquivos no path src.main.resources.baseDados.liquibase-changelog.xml.
-Caso o apontamento do banco no arquivo application.properties esteja correto, o Liquibase irá se encarregar da criação de toda a estrutura de banco.
-- Após criada a estrutura de banco, deve-se executar a classe br.com.poc.MainApplication (Spring Boot) para todar a aplicação.
+- Na arquivo application.properties é possível definiar a quantidade limite de distância para que a busca retorna os eventos. O valor atual default está como 50, conforme solicitado em especificação.
 
-OBSERVAÇÕES:
-- Devido ao tempo de desenvolvimento, algumas funcionalidades como Paginação foram implementadas parcialmente.
-- Talvez após criar a estrutura via Liquibase e ocorrer erro ao subir novamente a app, deve-se trocar a propriedadw spring.liquibase.enabled=true no application.properties para false.
+**Codificação:**
+- Na classe de teste EventReadServiceImplTest foram desenvolvidos alguns testes simples utilizando Spring Test.
+- Como disponibilização futura para integração, foi criada a classe EventController com método get passando os parâmetros da latitude e longitude e limite de distância.
+
+**Exemplo de chamada REST**:
+http://localhost:8080/events-api/events/list?latitude=-23.70041&longitude=-46.53713&limitDistance=50)
+
+- A classe EventReadServiceImpl é responsável pela leitura da planilha que está contida na pasta resources da aplicação (resouces/eventlog.csv).
+- No retorno do console está sendo apresentado os seguintes valores: Código do dispositivo, distância do evento até o ponto informado, data/hora do evento em formato ISO8601 e o payload do evento.
+
+**Rodando a aplicação: **
+- Ao subir a aplicação será apresentada a mensagem "digite:" no console para que seja inserido o comando ./csv-search --location -23.70041,-46.53713
+- O sistema irá retornar ordenadamente
+
+
+
+
 

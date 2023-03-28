@@ -39,7 +39,7 @@ public class EventReadServiceImpl implements EventReadService {
     private Double distanceLimitDefault;
 
     @Override
-    public List<EventDTO> readEvents(double entryValueLatitude,double entryValueLongitude ){
+    public List<EventDTO> readEvents(double entryValueLatitude, double entryValueLongitude ){
         return filterEvents(entryValueLatitude, entryValueLongitude, distanceLimitDefault);
     }
 
@@ -48,7 +48,7 @@ public class EventReadServiceImpl implements EventReadService {
         return filterEvents(entryValueLatitude, entryValueLongitude, proximityLimitDistance);
     }
 
-    public List<EventDTO> filterEvents(double entryValueLatitude,double entryValueLongitude, double distanceLimit){
+    public List<EventDTO> filterEvents(double entryValueLatitude, double entryValueLongitude, double distanceLimit){
         BufferedReader br = null;
         String line = "";
 
@@ -117,35 +117,43 @@ public class EventReadServiceImpl implements EventReadService {
             try {
                 br.close();
             } catch (IOException e) {
+            	LOGGER.error("Erro ao fechar arquivo.");
                 e.printStackTrace();
             }
         }
     }
 
     private EventDTO setValuesEvent(String[] columns, String getPayload) throws ParseException {
-        EventDTO event = new EventDTO();
-        event.setDevice(columns[0]);
-        event.setPrefix(columns[1]);
-
-
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-        Date instantCreateEvent = DATE_FORMAT.parse(columns[2]);
-
-        event.setInstantCreateEvent(instantCreateEvent);
-        event.setPayload(getPayload);
-
-        String latitudeColumn = columns[5];
-        String longitudeColumn = columns[6];
-
-        longitudeColumn = longitudeColumn.replaceAll("<","");
-        longitudeColumn = longitudeColumn.replaceAll("\"", "");
-
-        event.setLatitude(Double.parseDouble(latitudeColumn));
-        event.setLongitude(Double.parseDouble(longitudeColumn));
-        event.setCompany(columns[7]);
-
-        return event;
+        try {
+	    	EventDTO event = new EventDTO();
+	        event.setDevice(columns[0]);
+	        event.setPrefix(columns[1]);
+	        
+	
+	        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+	        
+	
+	        Date instantCreateEvent = DATE_FORMAT.parse(columns[2]);
+	
+	        event.setInstantCreateEvent(instantCreateEvent);
+	        event.setPayload(getPayload);
+	
+	        String latitudeColumn = columns[5];
+	        String longitudeColumn = columns[6];
+	
+	        longitudeColumn = longitudeColumn.replaceAll("<","");
+	        longitudeColumn = longitudeColumn.replaceAll("\"", "");
+	
+	        event.setLatitude(Double.parseDouble(latitudeColumn));
+	        event.setLongitude(Double.parseDouble(longitudeColumn));
+	        event.setCompany(columns[7]);
+	
+	        return event;
+        }catch (Exception e) {
+        	LOGGER.error("Erro ao prencher valores da planilha no objeto Event.");
+        	e.printStackTrace();
+		}
+        return null;
     }
 
     private boolean distanceCalculateInMeters(double latitudeParam, double longitudeParam, EventDTO event, double distanceLimit){
@@ -155,10 +163,5 @@ public class EventReadServiceImpl implements EventReadService {
         return true;
     }
 
-    public List<EventDTO> readMysql(){
-
-
-        return events;
-    }
 
 }
