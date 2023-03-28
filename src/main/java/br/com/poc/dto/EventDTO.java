@@ -1,8 +1,6 @@
 package br.com.poc.dto;
 
 
-import br.com.poc.entity.Event;
-
 import java.util.Comparator;
 import java.util.Date;
 
