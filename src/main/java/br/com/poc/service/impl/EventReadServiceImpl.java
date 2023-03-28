@@ -101,7 +101,7 @@ public class EventReadServiceImpl implements EventReadService {
             StringBuilder stringToOut = new StringBuilder();
             stringToOut.append(event.getDevice()).append(CSV_DIVISOR)
                     .append(event.getDistanceInMeters()).append(CSV_DIVISOR)
-                    .append(formatDateToOut.format(event.getInstantCreateEvent())).append(CSV_DIVISOR)
+                    .append(DATE_FORMAT_OUT.format(event.getInstantCreateEvent())).append(CSV_DIVISOR)
                     .append("\">"+event.getPayload()+"<\"");
 
             System.out.println(stringToOut.toString().substring(1,stringToOut.length()));
