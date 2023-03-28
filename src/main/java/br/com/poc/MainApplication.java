@@ -7,7 +7,6 @@ import br.com.poc.service.EventReadService;
 import br.com.poc.service.impl.EventReadServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,14 +14,6 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class MainApplication {
-
-	// Caso seja implementado conexão de banco, este trecho deve ser
-	// descomentado para chamadas as configurações do banco no arquivo application.properties
-
-	/*@Bean(name = "flushBase")
-    public String flushBase() {
-		return new String();
-    }*/
 
     private EventReadService eventReadService;
 	public static final String csvDivisor = ",";
