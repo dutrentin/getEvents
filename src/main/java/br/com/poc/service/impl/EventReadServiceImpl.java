@@ -25,11 +25,11 @@ public class EventReadServiceImpl implements EventReadService {
     private String arquivoCSV = "C://eventlog6.csv";
 
 
-    public static final String csvDivisor = ",";
-    public static final String payloadDivisor = ">";
-    public static final String payloadDivisorEnd = "<";
-    public static final SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    public static final SimpleDateFormat formatDateToOut = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+    public static final String CSV_DIVISOR = ",";
+    public static final String PAYLOAD_DIVISOR = ">";
+    public static final String PAYLOAD_DIVISOR_END = "<";
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    public static final SimpleDateFormat DATE_FORMAT_OUT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     private List<EventDTO> events;
 
@@ -56,10 +56,10 @@ public class EventReadServiceImpl implements EventReadService {
 
             while ((line = br.readLine()) != null) {
                 if(!line.contains("device")){
-                    String[] columns = line.split(csvDivisor);
+                    String[] columns = line.split(CSV_DIVISOR);
 
                     if(columns.length >= 7){
-                        String[] payloadColumns = line.split(payloadDivisor);
+                        String[] payloadColumns = line.split(PAYLOAD_DIVISOR);
                         String getPayload = payloadColumns[1].split("\\<")[0];
 
                         EventDTO event = setValuesEvent(columns, getPayload);
@@ -99,9 +99,9 @@ public class EventReadServiceImpl implements EventReadService {
     private void printValuesInConsole(){
         for(EventDTO event : events){
             StringBuilder stringToOut = new StringBuilder();
-            stringToOut.append(event.getDevice()).append(csvDivisor)
-                    .append(event.getDistanceInMeters()).append(csvDivisor)
-                    .append(formatDateToOut.format(event.getInstantCreateEvent())).append(csvDivisor)
+            stringToOut.append(event.getDevice()).append(CSV_DIVISOR)
+                    .append(event.getDistanceInMeters()).append(CSV_DIVISOR)
+                    .append(formatDateToOut.format(event.getInstantCreateEvent())).append(CSV_DIVISOR)
                     .append("\">"+event.getPayload()+"<\"");
 
             System.out.println(stringToOut.toString().substring(1,stringToOut.length()));
@@ -124,9 +124,9 @@ public class EventReadServiceImpl implements EventReadService {
         event.setPrefix(columns[1]);
 
 
-        formatDate.setTimeZone(TimeZone.getTimeZone("GMT"));
+        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-        Date instantCreateEvent = formatDate.parse(columns[2]);
+        Date instantCreateEvent = DATE_FORMAT.parse(columns[2]);
 
         event.setInstantCreateEvent(instantCreateEvent);
         event.setPayload(getPayload);
