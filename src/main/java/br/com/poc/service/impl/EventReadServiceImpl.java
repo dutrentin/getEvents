@@ -24,8 +24,8 @@ public class EventReadServiceImpl implements EventReadService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventReadServiceImpl.class);
 
-    //private String arquivoCSV = "C://eventlog.csv";
-    private String arquivoCSV = EventReadServiceImpl.class.getClassLoader().getResource("eventlog.csv").getFile() ;
+    private String arquivoCSV = "C://eventlog.csv";
+    //private String arquivoCSV = EventReadServiceImpl.class.getClassLoader().getResource("eventlog.csv").getFile() ;
 
     
     public static final String CSV_DIVISOR = ",";

@@ -21,6 +21,13 @@ http://localhost:8080/events-api/events/list?latitude=-23.70041&longitude=-46.53
 **Rodando a aplicação: **
 - Ao subir a aplicação será apresentada a mensagem "digite:" no console para que seja inserido o comando ./csv-search --location -23.70041,-46.53713
 - O sistema irá retornar ordenadamente
+- **Obs:** Nas linhas 27 e 28 da classe EventReadServiceImpl estão definidos os apontamentos do arquivo CSV. Deixei duas opções. Uma delas é o caminho fixo C://eventlog.csv que está
+funcionando quando a aplicação sobe via linha de comando ( java -jar avaliacao-eduardo-wplex-1.0.0.jar) e uma segunda opção usando o getClassLoader() onde é buscado o contexto da aplicação.
+Porém esta segunda opção está funcionando apenas quando executado via IDE (Eclipse, Intellij..) por motivos de erro no caminhon relatorio do windows ( usando '\') e até a entrega
+não consegui contornar.
+- **Obs 2:** A classe ConcurrentGerenate foi criada para gerencia a concorrência do serviço usando Threads, mas não foi concluída até a entrega.
+
+
 
 
 
